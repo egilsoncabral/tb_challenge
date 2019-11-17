@@ -1,7 +1,9 @@
 package com.tbproject.challenge.config;
 
+import com.google.common.collect.Sets;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -12,6 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static springfox.documentation.builders.PathSelectors.regex;
 
 @EnableSwagger2
@@ -23,9 +26,11 @@ public class SwaggerConfig {
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.techprimers.springboot.swaggerexample"))
-                .paths(regex("/rest.*"))
+                .apis(RequestHandlerSelectors.basePackage("com.tbproject.challenge.controller"))
+                .paths(PathSelectors.ant("/api/**"))
                 .build()
+                .produces(Sets.newHashSet(APPLICATION_JSON_VALUE))
+                .consumes(Sets.newHashSet(APPLICATION_JSON_VALUE))
                 .apiInfo(metaInfo());
     }
 

@@ -14,8 +14,10 @@
 	<name>TB Challenge Vehicles</name>
 	<description>Project to exposes vehicles datas</description>
 
+
 	<properties>
 		<java.version>1.8</java.version>
+		<docker.image.prefix>tbproject</docker.image.prefix>
 	</properties>
 
 	<dependencies>
@@ -59,10 +61,22 @@
 			<version>2.9.2</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations -->
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>2.0.10</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.10.1</version>
+		</dependency>
+
+
+
 	</dependencies>
 
 	<build>
@@ -70,6 +84,26 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.3.6</version>
+				<executions>
+					<execution>
+						<id>build-image</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<repository>${docker.image.prefix}/${project.artifactId}</repository>
+					<buildArgs>
+						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
