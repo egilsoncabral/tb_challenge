@@ -1,289 +1,232 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-    "title": "Bus GPS API",
-    "description": "Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.",
-    "version": "1.0.0"
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "A web service that exposes Vehicle (Bus), Fleet (Operator) and Activity (Stop) data, for a given time frame",
+    "version" : "1.0.0",
+    "title" : "Bus GPS API"
   },
-  "servers": [
-    {
-      "url": "http://localhost:8080",
-      "description": "Main server"
+  "basePath" : "/api",
+  "schemes" : [ "http", "https" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/operators" : {
+      "get" : {
+        "tags" : [ "Operators" ],
+        "summary" : "Returns a list of running operators.",
+        "description" : "Returns a list of running operators.",
+        "operationId" : "operators",
+        "parameters" : [ {
+          "name" : "start-time",
+          "in" : "header",
+          "description" : "Start time (2012-12-31).",
+          "required" : true,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type" : "string"
+        }, {
+          "name" : "end-time",
+          "in" : "header",
+          "description" : "End time (2013-01-31).",
+          "required" : true,
+          "type" : "string"
+        }],
+        "responses" : {
+          "200" : {
+            "description" : "A list of operators.",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/OperatorResponse"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Validation error"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      }
+    },
+    "/vehicles" : {
+      "get" : {
+        "tags" : [ "Vehicles" ],
+        "summary" : "Returns a list of vehicles",
+        "description" : "Returns a list of vehicles",
+        "operationId" : "vehicles",
+        "parameters" : [ {
+          "name" : "start-time",
+          "in" : "header",
+          "description" : "Start time (2012-12-31).",
+          "required" : true,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type" : "string"
+        }, {
+          "name" : "end-time",
+          "in" : "header",
+          "description" : "End time (2013-01-31).",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "operator",
+          "in" : "header",
+          "description" : "An operator (RD)",
+          "required" : true,
+          "type" : "string"
+        }],
+        "responses" : {
+          "200" : {
+            "description" : "A list of vehicles ids.",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/VehicleResponse"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Validation error"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      }
+    },
+    "/vehiclesAtStop" : {
+      "get" : {
+        "tags" : [ "Vehicles at a Stop" ],
+        "summary" : "Return which vehicles are at a stop.",
+        "description" : "Return which vehicles are at a stop.",
+        "operationId" : "vehicleAtStop",
+        "parameters" : [ {
+          "name" : "start-time",
+          "in" : "header",
+          "description" : "Start time (2012-12-31).",
+          "required" : true,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type" : "string"
+        }, {
+          "name" : "end-time",
+          "in" : "header",
+          "description" : "End time (2013-01-31).",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "fleet",
+          "in" : "header",
+          "description" : "A fleet (RD)",
+          "required" : true,
+          "type" : "string"
+        }],
+        "responses" : {
+          "200" : {
+            "description" : "A list of vehicles at a Stop.",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/VehicleStopResponse"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Validation error"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      }
+    },
+    "/vehicleTrace" : {
+      "get" : {
+        "tags" : [ "Trace of a vehicle" ],
+        "summary" : "Return the trace of that vehicle",
+        "description" : "Return the trace of that vehicle",
+        "operationId" : "vehicleTrace",
+        "parameters" : [ {
+          "name" : "start-time",
+          "in" : "header",
+          "description" : "Start time (2012-12-31).",
+          "required" : true,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "type" : "string"
+        }, {
+          "name" : "end-time",
+          "in" : "header",
+          "description" : "End time (2013-01-31).",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "vehicleId",
+          "in" : "header",
+          "description" : "A vehicle id (123445)",
+          "required" : true,
+          "type" : "string"
+        }],
+        "responses" : {
+          "200" : {
+            "description" : "A list of GPS entries of that vehicle.",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/VehiclePositionResponse"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Validation error"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        }
+      }
     }
-  ],
-  "paths": {
-    "/operators": {
-      "get": {
-        "summary": "Returns a list of running operators.",
-        "parameters": [
-          {
-            "name": "start-time",
-            "in": "header",
-            "required": true,
-            "description": "Start time (2012-12-31).",
-            "schema": {
-              "type": "string",
-              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-              "example": "2012-12-31"
-            }
-          },
-          {
-            "name": "end-time",
-            "in": "header",
-            "required": true,
-            "description": "End time (2013-01-31).",
-            "schema": {
-              "type": "string",
-              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-              "example": "2013-01-31"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of operators.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "operator": {
-                        "type": "string",
-                        "example": "RD"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation error."
-          },
-          "404": {
-            "description": "Server offline."
-          },
-          "500": {
-            "description": "Internal server error."
-          }
+  },
+  "definitions" : {
+    "OperatorResponse" : {
+      "type" : "object",
+      "properties" : {
+        "operator" : {
+          "type" : "string",
+          "example" : "RD"
         }
       }
     },
-    "/vehicles": {
-      "get": {
-        "summary": "Returns a list of vehicles.",
-        "parameters": [
-          {
-            "name": "start-time",
-            "in": "header",
-            "required": true,
-            "description": "Start time (2012-12-31).",
-            "schema": {
-              "type": "string",
-              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-              "example": "2012-12-31"
-            }
-          },
-          {
-            "name": "end-time",
-            "in": "header",
-            "required": true,
-            "description": "End time (2013-01-31).",
-            "schema": {
-              "type": "string",
-              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-              "example": "2013-01-31"
-            }
-          },
-          {
-            "name": "operator",
-            "in": "header",
-            "required": true,
-            "description": "An operator",
-            "schema": {
-              "type": "string",
-              "example": "RD"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of vehicles ids.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "vehicleId": {
-                        "type": "string",
-                        "example": "345241"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation error."
-          },
-          "404": {
-            "description": "Server offline."
-          },
-          "500": {
-            "description": "Internal server error."
-          }
+    "VehicleResponse" : {
+      "type" : "object",
+      "properties" : {
+        "vehicleId" : {
+          "type" : "string",
+          "example" : "1250"
         }
       }
     },
-    "/vehiclesAtStop": {
-      "get": {
-        "summary": "Return which vehicles are at a stop.",
-        "parameters": [
-          {
-            "name": "start-time",
-            "in": "header",
-            "required": true,
-            "description": "Start time (2012-12-31).",
-            "schema": {
-              "type": "string",
-              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-              "example": "2012-12-31"
-            }
-          },
-          {
-            "name": "end-time",
-            "in": "header",
-            "required": true,
-            "description": "End time (2013-01-31).",
-            "schema": {
-              "type": "string",
-              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-              "example": "2013-01-31"
-            }
-          },
-          {
-            "name": "fleet",
-            "in": "header",
-            "required": true,
-            "description": "A fleet",
-            "schema": {
-              "type": "string",
-              "example": "RD"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of vehicles at a Stop.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "vehicleId": {
-                        "type": "string",
-                        "example": "345241"
-                      },
-                      "atStop": {
-                        "type": "boolean",
-                        "example": true
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation error."
-          },
-          "404": {
-            "description": "Server offline."
-          },
-          "500": {
-            "description": "Internal server error."
-          }
+    "VehicleStopResponse" : {
+      "type" : "object",
+      "properties" : {
+        "vehicleId" : {
+          "type" : "string",
+          "example" : "12233"
+        },
+        "atStop" : {
+          "type" : "boolean",
+          "example" : true
         }
       }
     },
-    "/vehicleTrace": {
-      "get": {
-        "summary": "Return the trace of that vehicle (GPS entries, ordered by timestamp)",
-        "parameters": [
-          {
-            "name": "start-time",
-            "in": "header",
-            "required": true,
-            "description": "Start time (2012-12-31).",
-            "schema": {
-              "type": "string",
-              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-              "example": "2012-12-31"
-            }
-          },
-          {
-            "name": "end-time",
-            "in": "header",
-            "required": true,
-            "description": "End time (2013-01-31).",
-            "schema": {
-              "type": "string",
-              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-              "example": "2013-01-31"
-            }
-          },
-          {
-            "name": "vehicleId",
-            "in": "header",
-            "required": true,
-            "description": "A vehicle id",
-            "schema": {
-              "type": "string",
-              "example": "1231232"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The trace of that vehicle",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "vehicleId": {
-                      "type": "string",
-                      "example": "345241"
-                    },
-                    "longitude": {
-                      "type": "string",
-                      "example": "-6.257359"
-                    },
-                    "latitude": {
-                      "type": "string",
-                      "example": "53.373501"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation error."
-          },
-          "404": {
-            "description": "Server offline."
-          },
-          "500": {
-            "description": "Internal server error."
-          }
+    "VehiclePositionResponse" : {
+      "type" : "object",
+      "properties" : {
+        "longitude" : {
+          "type" : "string",
+          "example" : "-6.257359"
+        },
+        "latitude" : {
+          "type" : "string",
+          "example" : "53.373501"
         }
       }
     }

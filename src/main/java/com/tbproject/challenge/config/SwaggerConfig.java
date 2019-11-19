@@ -3,6 +3,7 @@ package com.tbproject.challenge.config;
 import com.google.common.collect.Sets;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -21,9 +22,20 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @Configuration
 public class SwaggerConfig {
 
+    ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Bus GPS API")
+                .description("A web service that exposes Vehicle (Bus), Fleet (Operator) and Activity (Stop) data, for a given time frame")
+                .license("")
+                .licenseUrl("http://unlicense.org")
+                .termsOfServiceUrl("")
+                .version("1.0.0")
+                .contact(new Contact("","", ""))
+                .build();
+    }
 
     @Bean
-    public Docket productApi() {
+    public Docket productApi(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.tbproject.challenge.controller"))
@@ -31,22 +43,7 @@ public class SwaggerConfig {
                 .build()
                 .produces(Sets.newHashSet(APPLICATION_JSON_VALUE))
                 .consumes(Sets.newHashSet(APPLICATION_JSON_VALUE))
-                .apiInfo(metaInfo());
+                .apiInfo(apiInfo());
     }
 
-    private ApiInfo metaInfo() {
-
-        ApiInfo apiInfo = new ApiInfo(
-                "Spring Boot Swagger Example API",
-                "Spring Boot Swagger Example API for Youtube",
-                "1.0",
-                "Terms of Service",
-                new Contact("TechPrimers", "https://www.youtube.com/TechPrimers",
-                        "techprimerschannel@gmail.com"),
-                "Apache License Version 2.0",
-                "https://www.apache.org/licesen.html", new ArrayList<VendorExtension>()
-        );
-
-        return apiInfo;
-    }
 }

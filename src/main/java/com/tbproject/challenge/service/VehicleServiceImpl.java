@@ -26,7 +26,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public VehiclePositionResponse getVehiclePosition(String startTime, String EndTime, String vehicleId) {
+    public List<VehiclePositionResponse> getVehiclePosition(String startTime, String EndTime, String vehicleId) {
         return null;
     }
 }

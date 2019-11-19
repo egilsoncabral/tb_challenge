@@ -15,6 +15,6 @@ public interface VehicleService {
 
     List<VehicleStopResponse> getVehiclesStoped(String startTime, String EndTime, String fleet);
 
-    VehiclePositionResponse getVehiclePosition(String startTime, String EndTime, String vehicleId);
+    List<VehiclePositionResponse> getVehiclePosition(String startTime, String EndTime, String vehicleId);
 
 }

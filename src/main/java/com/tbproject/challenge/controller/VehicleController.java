@@ -5,107 +5,104 @@ import com.tbproject.challenge.dto.VehiclePositionResponse;
 import com.tbproject.challenge.dto.VehicleResponse;
 import com.tbproject.challenge.dto.VehicleStopResponse;
 import com.tbproject.challenge.service.VehicleService;
-import io.swagger.annotations.Api;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import java.util.List;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping(value = "/api/", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-@Api(value="Bus GPS API")
+@RequestMapping(value = "/api/")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-18T23:54:00.718Z")
 public class VehicleController {
 
     @Autowired
     private VehicleService vehicleService;
 
-    @GetMapping("/operators")
-    @Operation(summary = "Returns a list of running operators.", description = "", tags = {})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "A list of operators.", content = @Content(array = @ArraySchema(schema = @Schema(implementation = OperatorResponse.class)))),
-            @ApiResponse(responseCode = "400", description = "Validation error."),
-            @ApiResponse(responseCode = "404", description = "Server offline."),
-            @ApiResponse(responseCode = "500", description = "Internal server error.")
-    })
-    public List<OperatorResponse> operatorsGet(@NotNull @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$")
-                                               @RequestHeader("start-time")
-                                               @Parameter(description = "Start time (2012-12-31).") String startTime,
-                                               @NotNull @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$")
-                                               @RequestHeader("end-time")
-                                               @Parameter(description = "End time (2013-01-31).") String endTime
-    ) {
-        return vehicleService.getOperators(startTime, endTime);
+    private final HttpServletRequest request;
+
+    @Autowired
+    public VehicleController(HttpServletRequest request) {
+        this.request = request;
     }
 
-    @GetMapping("/vehicles")
-    @Operation(summary = "Returns a list of vehicles.", description = "", tags = {})
+    @ApiOperation(value = "Returns a list of running operators.", nickname = "operators", notes = "Returns a list of running operators.", response = OperatorResponse.class, responseContainer = "List", tags={ "Operators", })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "A list of vehicles ids.", content = @Content(array = @ArraySchema(schema = @Schema(implementation = VehicleResponse.class)))),
-            @ApiResponse(responseCode = "400", description = "Validation error."),
-            @ApiResponse(responseCode = "404", description = "Server offline."),
-            @ApiResponse(responseCode = "500", description = "Internal server error.")
-    })
-    public List<VehicleResponse> vehiclesGet(@NotNull @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$")
-                                             @RequestHeader("start-time")
-                                             @Parameter(description = "Start time (2012-12-31).") String startTime,
-                                             @NotNull @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$") @RequestHeader("end-time")
-                                             @Parameter(description = "End time (2013-01-31).") String endTime,
-                                             @NotNull @RequestHeader("operator")
-                                             @Parameter(description = "An operator") String operator
-    ) {
-        return vehicleService.getVehicles(startTime, endTime, operator);
+            @ApiResponse(code = 200, message = "A list of operators.", response = OperatorResponse.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Validation error"),
+            @ApiResponse(code = 500, message = "Internal server error") })
+    @RequestMapping(value = "/operators",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.GET)
+    public ResponseEntity<List<OperatorResponse>> operators(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime, @ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime) {
+        String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<List<OperatorResponse>>(vehicleService.getOperators(startTime, endTime), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<List<OperatorResponse>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @RequestMapping(value = "/vehicle/stop", method = RequestMethod.GET)
-    @Operation(summary = "Return which vehicles are at a stop.", description = "", tags={  })
+    @ApiOperation(value = "Returns a list of vehicles", nickname = "vehicles", notes = "Returns a list of vehicles", response = VehicleResponse.class, responseContainer = "List", tags={ "Vehicles", })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "A list of vehicles at a Stop.", content = @Content(array = @ArraySchema(schema = @Schema(implementation = VehicleStopResponse.class)))),
-            @ApiResponse(responseCode = "400", description = "Validation error."),
-            @ApiResponse(responseCode = "404", description = "Server offline."),
-            @ApiResponse(responseCode = "500", description = "Internal server error.")
-    })
-    public List<VehicleStopResponse> vehiclesAtStopGet(@NotNull @Pattern(regexp="^\\d{4}-\\d{2}-\\d{2}$")
-                                                       @RequestHeader("start-time")
-                                                       @Parameter(description = "Start time (2012-12-31).") String startTime,
-                                                       @NotNull @Pattern(regexp="^\\d{4}-\\d{2}-\\d{2}$")
-                                                       @RequestHeader("end-time")
-                                                       @Parameter(description = "End time (2013-01-31).") String endTime,
-                                                       @NotNull
-                                                       @RequestHeader("fleet")
-                                                       @Parameter(description = "A fleet") String fleet
-    ) {
-        return vehicleService.getVehiclesStoped(startTime, endTime, fleet);
+            @ApiResponse(code = 200, message = "A list of vehicles ids.", response = VehicleResponse.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Validation error"),
+            @ApiResponse(code = 500, message = "Internal server error") })
+    @RequestMapping(value = "/vehicles",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.GET)
+    public ResponseEntity<List<VehicleResponse>> vehicles(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime,@ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime,@ApiParam(value = "An operator (RD)" ,required=true) @RequestHeader(value="operator", required=true) String operator) {
+        String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<List<VehicleResponse>>(vehicleService.getVehicles(startTime, endTime, operator), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<List<VehicleResponse>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @RequestMapping(value = "/vehicle/trace", method = RequestMethod.GET)
-    @Operation(summary = "Return the trace of that vehicle (GPS entries, ordered by timestamp)", description = "", tags = {})
+    @ApiOperation(value = "Return which vehicles are at a stop.", nickname = "vehicleAtStop", notes = "Return which vehicles are at a stop.", response = VehicleStopResponse.class, responseContainer = "List", tags={ "Vehicles at a Stop", })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "The trace of that vehicle", content = @Content(schema = @Schema(implementation = VehiclePositionResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Validation error."),
-            @ApiResponse(responseCode = "404", description = "Server offline."),
-            @ApiResponse(responseCode = "500", description = "Internal server error.")
-    })
-    public VehiclePositionResponse vehicleTraceGet(@NotNull @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$")
-                                                   @RequestHeader("start-time")
-                                                   @Parameter(description = "Start time (2012-12-31).") String startTime,
-                                                   @NotNull @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$")
-                                                   @RequestHeader("end-time")
-                                                   @Parameter(description = "End time (2013-01-31).") String endTime,
-                                                   @NotNull @RequestHeader("vehicleId")
-                                                   @Parameter(description = "A vehicle id") String vehicleId) {
-        return vehicleService.getVehiclePosition(startTime, endTime, vehicleId);
+            @ApiResponse(code = 200, message = "A list of vehicles at a Stop.", response = VehicleStopResponse.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Validation error"),
+            @ApiResponse(code = 500, message = "Internal server error") })
+    @RequestMapping(value = "/vehiclesAtStop",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.GET)
+    public ResponseEntity<List<VehicleStopResponse>> vehicleAtStop(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime,@ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime,@ApiParam(value = "A fleet (RD)" ,required=true) @RequestHeader(value="fleet", required=true) String fleet) {
+        String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<List<VehicleStopResponse>>(vehicleService.getVehiclesStoped(startTime, endTime, fleet), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<List<VehicleStopResponse>>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    @ApiOperation(value = "Return the trace of that vehicle", nickname = "vehicleTrace", notes = "Return the trace of that vehicle", response = VehiclePositionResponse.class, responseContainer = "List", tags={ "Trace of a vehicle", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "A list of GPS entries of that vehicle.", response = VehiclePositionResponse.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Validation error"),
+            @ApiResponse(code = 500, message = "Internal server error") })
+    @RequestMapping(value = "/vehicleTrace",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.GET)
+    public ResponseEntity<List<VehiclePositionResponse>> vehicleTrace(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime,@ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime,@ApiParam(value = "A vehicle id (123445)" ,required=true) @RequestHeader(value="vehicleId", required=true) String vehicleId) {
+        String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<List<VehiclePositionResponse>>(vehicleService.getVehiclePosition(startTime, endTime, vehicleId), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<List<VehiclePositionResponse>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
 }

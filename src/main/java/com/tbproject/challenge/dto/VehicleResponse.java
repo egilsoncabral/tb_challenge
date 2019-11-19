@@ -1,30 +1,40 @@
 package com.tbproject.challenge.dto;
 
-import javax.validation.Valid;
-
-
-import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
+/**
+ * VehicleResponse
+ */
+@Validated
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-18T23:54:00.718Z")
 
-public class VehicleResponse {
-  private @Valid String vehicleId = null;
+public class VehicleResponse   {
+  @JsonProperty("vehicleId")
+  private String vehicleId = null;
 
-  /**
-   **/
   public VehicleResponse vehicleId(String vehicleId) {
     this.vehicleId = vehicleId;
     return this;
   }
 
-  
-  @ApiModelProperty(example = "345241", value = "")
-  @JsonProperty("vehicleId")
+  /**
+   * Get vehicleId
+   * @return vehicleId
+  **/
+  @ApiModelProperty(example = "1250", value = "")
+
 
   public String getVehicleId() {
     return vehicleId;
   }
+
   public void setVehicleId(String vehicleId) {
     this.vehicleId = vehicleId;
   }
@@ -39,7 +49,7 @@ public class VehicleResponse {
       return false;
     }
     VehicleResponse vehicleResponse = (VehicleResponse) o;
-    return Objects.equals(vehicleId, vehicleResponse.vehicleId);
+    return Objects.equals(this.vehicleId, vehicleResponse.vehicleId);
   }
 
   @Override
@@ -50,7 +60,7 @@ public class VehicleResponse {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class InlineResponse2001 {\n");
+    sb.append("class VehicleResponse {\n");
     
     sb.append("    vehicleId: ").append(toIndentedString(vehicleId)).append("\n");
     sb.append("}");
@@ -68,3 +78,4 @@ public class VehicleResponse {
     return o.toString().replace("\n", "\n    ");
   }
 }
+
