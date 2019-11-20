@@ -3,6 +3,8 @@ package com.tbproject.challenge.config;
 import com.google.common.collect.Sets;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -20,7 +22,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
 
 @EnableSwagger2
 @Configuration
-public class SwaggerConfig {
+public class SwaggerConfig extends WebMvcConfigurationSupport {
 
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
@@ -39,11 +41,20 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.tbproject.challenge.controller"))
-                .paths(PathSelectors.ant("/api/**"))
+                //.paths(PathSelectors.ant("/api/**"))
                 .build()
                 .produces(Sets.newHashSet(APPLICATION_JSON_VALUE))
                 .consumes(Sets.newHashSet(APPLICATION_JSON_VALUE))
                 .apiInfo(apiInfo());
+    }
+
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
 }

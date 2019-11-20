@@ -9,12 +9,12 @@ import java.util.List;
 
 public interface VehicleService {
 
-    List<OperatorResponse> getOperators(String startTime, String EndTime);
+    List<OperatorResponse> getOperators(String startTime, String endTime);
 
-    List<VehicleResponse> getVehicles(String startTime, String EndTime, String operator);
+    List<VehicleResponse> getVehicles(String startTime, String endTime, String operator);
 
-    List<VehicleStopResponse> getVehiclesStoped(String startTime, String EndTime, String fleet);
+    List<VehicleStopResponse> getVehiclesStoped(String startTime, String endTime, String fleet);
 
-    List<VehiclePositionResponse> getVehiclePosition(String startTime, String EndTime, String vehicleId);
+    List<VehiclePositionResponse> getVehiclePosition(String startTime, String endTime, String vehicleId);
 
 }

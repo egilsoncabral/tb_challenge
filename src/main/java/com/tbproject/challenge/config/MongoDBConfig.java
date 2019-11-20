@@ -11,10 +11,4 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @Configuration
 public class MongoDBConfig {
 
-    @Bean
-    CommandLineRunner commandLineRunner(VehicleRepository vehicleRepository) {
-        return strings -> {
-            vehicleRepository.deleteAll();
-        };
-    }
 }

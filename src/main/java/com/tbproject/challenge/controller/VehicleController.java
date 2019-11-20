@@ -7,6 +7,7 @@ import com.tbproject.challenge.dto.VehicleStopResponse;
 import com.tbproject.challenge.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
@@ -19,7 +20,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "/api/")
+//@RequestMapping(value = "/api/")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-18T23:54:00.718Z")
 public class VehicleController {
 
@@ -39,8 +40,7 @@ public class VehicleController {
             @ApiResponse(code = 400, message = "Validation error"),
             @ApiResponse(code = 500, message = "Internal server error") })
     @RequestMapping(value = "/operators",
-            produces = { "application/json" },
-            consumes = { "application/json" },
+            produces = { MediaType.APPLICATION_JSON_VALUE },
             method = RequestMethod.GET)
     public ResponseEntity<List<OperatorResponse>> operators(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime, @ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime) {
         String accept = request.getHeader("Accept");
@@ -57,8 +57,7 @@ public class VehicleController {
             @ApiResponse(code = 400, message = "Validation error"),
             @ApiResponse(code = 500, message = "Internal server error") })
     @RequestMapping(value = "/vehicles",
-            produces = { "application/json" },
-            consumes = { "application/json" },
+            produces = { MediaType.APPLICATION_JSON_VALUE },
             method = RequestMethod.GET)
     public ResponseEntity<List<VehicleResponse>> vehicles(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime,@ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime,@ApiParam(value = "An operator (RD)" ,required=true) @RequestHeader(value="operator", required=true) String operator) {
         String accept = request.getHeader("Accept");
@@ -75,8 +74,7 @@ public class VehicleController {
             @ApiResponse(code = 400, message = "Validation error"),
             @ApiResponse(code = 500, message = "Internal server error") })
     @RequestMapping(value = "/vehiclesAtStop",
-            produces = { "application/json" },
-            consumes = { "application/json" },
+            produces = { MediaType.APPLICATION_JSON_VALUE },
             method = RequestMethod.GET)
     public ResponseEntity<List<VehicleStopResponse>> vehicleAtStop(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime,@ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime,@ApiParam(value = "A fleet (RD)" ,required=true) @RequestHeader(value="fleet", required=true) String fleet) {
         String accept = request.getHeader("Accept");
@@ -93,15 +91,13 @@ public class VehicleController {
             @ApiResponse(code = 400, message = "Validation error"),
             @ApiResponse(code = 500, message = "Internal server error") })
     @RequestMapping(value = "/vehicleTrace",
-            produces = { "application/json" },
-            consumes = { "application/json" },
+            produces = { MediaType.APPLICATION_JSON_VALUE },
             method = RequestMethod.GET)
     public ResponseEntity<List<VehiclePositionResponse>> vehicleTrace(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime,@ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime,@ApiParam(value = "A vehicle id (123445)" ,required=true) @RequestHeader(value="vehicleId", required=true) String vehicleId) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             return new ResponseEntity<List<VehiclePositionResponse>>(vehicleService.getVehiclePosition(startTime, endTime, vehicleId), HttpStatus.OK);
         }
-
         return new ResponseEntity<List<VehiclePositionResponse>>(HttpStatus.NOT_IMPLEMENTED);
     }
 

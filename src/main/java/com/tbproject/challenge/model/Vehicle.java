@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
     /*
@@ -34,7 +35,22 @@ import java.sql.Timestamp;
 public class Vehicle {
 
     @Id
-    private Integer id;
+    private BigInteger _id;
+    private long timestamp;
+    private String lineId;
+    private String direction;
+    private String journeyPatternId;
+    private String timeFrame;
+    private String vehicleJourneyId;
+    private String operator;
+    private boolean congestion;
+    private String longitude;
+    private String latitude;
+    private Double delay;
+    private String blockId;
+    private String vehicleId;
+    private String stopId;
+    private boolean atStop;
     private VehicleDetail vehicleDetail;
 
     public Vehicle(){
