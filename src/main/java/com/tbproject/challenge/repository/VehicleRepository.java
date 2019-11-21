@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface VehicleRepository extends MongoRepository<Vehicle, Integer>, QuerydslPredicateExecutor<Vehicle> {
+public interface VehicleRepository extends MongoRepository<Vehicle, Integer>{
 
 
     List findByTimeFrameBetween(String startTime, String endTime);

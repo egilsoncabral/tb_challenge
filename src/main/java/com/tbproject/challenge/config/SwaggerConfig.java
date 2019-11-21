@@ -43,6 +43,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .apis(RequestHandlerSelectors.basePackage("com.tbproject.challenge.controller"))
                 //.paths(PathSelectors.ant("/api/**"))
                 .build()
+                .useDefaultResponseMessages(false)
                 .produces(Sets.newHashSet(APPLICATION_JSON_VALUE))
                 .consumes(Sets.newHashSet(APPLICATION_JSON_VALUE))
                 .apiInfo(apiInfo());

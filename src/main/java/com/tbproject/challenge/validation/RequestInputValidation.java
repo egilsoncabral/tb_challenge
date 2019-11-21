@@ -1,13 +1,16 @@
 package com.tbproject.challenge.validation;
 
+import com.tbproject.challenge.exceptions.ApiException;
+
+import java.text.ParseException;
 import java.util.List;
 
 public interface RequestInputValidation {
 
-    List validateOperatorRequest(String startTime, String endTime);
+    void validateOperatorRequest(String startTime, String endTime) throws ParseException, ApiException;
 
-    List validateVehicleRequest(String startTime, String endTime, String operator);
+    void validateVehicleRequest(String startTime, String endTime, String operator) throws ParseException, ApiException;
 
-    List validatePositionRequest(String startTime, String endTime, String vehicleId);
+    void validatePositionRequest(String startTime, String endTime, String vehicleId) throws ParseException, ApiException;
 
 }
