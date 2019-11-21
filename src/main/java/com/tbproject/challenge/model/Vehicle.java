@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.index.IndexDirection;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
 
     /*
 	1356998445000000,7,0,00071003,2012-12-31,6106,D1,0,-6.231650,53.317768,0,7019,43004,3222,1
@@ -36,6 +39,7 @@ public class Vehicle {
 
     @Id
     private BigInteger _id;
+    @Indexed(direction = IndexDirection.ASCENDING)
     private long timestamp;
     private String lineId;
     private String direction;

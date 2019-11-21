@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
@@ -21,54 +22,42 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public List<OperatorResponse> getOperators(String startTime, String endTime) {
         List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetween(startTime, endTime);
-        List<OperatorResponse> operatorResponses = new ArrayList<>();
-        OperatorResponse operatorResponse = new OperatorResponse();
-        for (Vehicle vehicle: vehicles) {
+        return vehicles.stream().map((vehicle) -> {
+            OperatorResponse operatorResponse = new OperatorResponse();
             operatorResponse.setOperator(vehicle.getOperator());
-            operatorResponses.add(operatorResponse);
-        }
-
-        return operatorResponses;
+            return operatorResponse;
+        }).collect(Collectors.toList());
     }
 
     @Override
     public List<VehicleResponse> getVehicles(String startTime, String endTime, String operator) {
         List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetweenAndOperator(startTime,endTime, operator);
-        List<VehicleResponse> vehicleResponses = new ArrayList<>();
-        VehicleResponse vehicleResponse = new VehicleResponse();
-        for (Vehicle vehicle: vehicles) {
+        return vehicles.stream().map((vehicle) -> {
+            VehicleResponse vehicleResponse = new VehicleResponse();
             vehicleResponse.setVehicleId(vehicle.getVehicleId());
-            vehicleResponses.add(vehicleResponse);
-        }
-
-        return vehicleResponses;
+            return vehicleResponse;
+        }).collect(Collectors.toList());
     }
 
     @Override
     public List<VehicleStopResponse> getVehiclesStoped(String startTime, String endTime, String fleet) {
         List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetweenAndOperator(startTime,endTime, fleet);
-        List<VehicleStopResponse> vehicleStopResponses = new ArrayList<>();
-        VehicleStopResponse vehicleStopResponse = new VehicleStopResponse();
-        for (Vehicle vehicle: vehicles) {
+        return vehicles.stream().map((vehicle) -> {
+            VehicleStopResponse vehicleStopResponse = new VehicleStopResponse();
             vehicleStopResponse.setVehicleId(vehicle.getVehicleId());
             vehicleStopResponse.setAtStop(vehicle.isAtStop());
-            vehicleStopResponses.add(vehicleStopResponse);
-        }
-
-        return vehicleStopResponses;
+            return vehicleStopResponse;
+        }).collect(Collectors.toList());
     }
 
     @Override
     public List<VehiclePositionResponse> getVehiclePosition(String startTime, String endTime, String vehicleId) {
         List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetweenAndVehicleIdOrderByTimestamp(startTime,endTime, vehicleId);
-        List<VehiclePositionResponse> vehiclePositionResponses = new ArrayList<>();
-        VehiclePositionResponse vehiclePositionResponse = new VehiclePositionResponse();
-        for (Vehicle vehicle: vehicles) {
+        return vehicles.stream().map((vehicle) -> {
+            VehiclePositionResponse vehiclePositionResponse = new VehiclePositionResponse();
             vehiclePositionResponse.setLatitude(vehicle.getLatitude());
             vehiclePositionResponse.setLongitude(vehicle.getLongitude());
-            vehiclePositionResponses.add(vehiclePositionResponse);
-        }
-
-        return vehiclePositionResponses;
+            return vehiclePositionResponse;
+        }).collect(Collectors.toList());
     }
 }
