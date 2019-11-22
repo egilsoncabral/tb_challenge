@@ -6,16 +6,17 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface VehicleRepository extends MongoRepository<Vehicle, Integer>{
 
 
-    List findByTimeFrameBetween(String startTime, String endTime);
+    List findByTimeFrameBetween(Date startTime, Date endTime);
 
-    List findByTimeFrameBetweenAndOperator(String startTime, String endTime, String operator);
+    List findByTimeFrameBetweenAndOperator(Date startTime, Date endTime, String operator);
 
-    List findByTimeFrameBetweenAndVehicleIdOrderByTimestamp(String startTime, String endTime, String vehicleId);
+    List findByTimeFrameBetweenAndVehicleIdOrderByTimestamp(Date startTime, Date endTime, String vehicleId);
 
 }

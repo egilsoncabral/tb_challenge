@@ -19,10 +19,10 @@ public class RequestInputValidationImpl implements RequestInputValidation{
     private List<String> validateDate(String startTime, String endTime) throws ParseException {
 
         List<String> errorList = new ArrayList<>();
-        if (startTime == null){
+        if (startTime == null || startTime.isEmpty()){
             errorList.add("Start time null");
         }
-        if (endTime == null){
+        if (endTime == null || endTime.isEmpty()){
             errorList.add("End time null");
         }
 
@@ -60,8 +60,8 @@ public class RequestInputValidationImpl implements RequestInputValidation{
     @Override
     public void validateVehicleRequest(String startTime, String endTime, String operator) throws ParseException, ApiException {
         List<String> errors = validateDate(startTime, endTime);
-        if (operator == null){
-            errors.add("Operator is null.");
+        if (operator == null || operator.isEmpty()){
+            errors.add("Operator is null or empty.");
         }
         hasErrors(errors);
     }
@@ -69,8 +69,8 @@ public class RequestInputValidationImpl implements RequestInputValidation{
     @Override
     public void validatePositionRequest(String startTime, String endTime, String vehicleId) throws ParseException, ApiException {
         List<String> errors = validateDate(startTime, endTime);
-        if (vehicleId == null){
-            errors.add("Vehicle Id is null.");
+        if (vehicleId == null || vehicleId.isEmpty()){
+            errors.add("Vehicle Id is null or empty.");
         }
         hasErrors(errors);
     }

@@ -3,12 +3,11 @@ package com.tbproject.challenge.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.Date;
 
     /*
@@ -44,7 +43,7 @@ public class Vehicle {
     private String lineId;
     private String direction;
     private String journeyPatternId;
-    private String timeFrame;
+    private Date timeFrame;
     private String vehicleJourneyId;
     private String operator;
     private boolean congestion;
@@ -55,7 +54,6 @@ public class Vehicle {
     private String vehicleId;
     private String stopId;
     private boolean atStop;
-    private VehicleDetail vehicleDetail;
 
     public Vehicle(){
 

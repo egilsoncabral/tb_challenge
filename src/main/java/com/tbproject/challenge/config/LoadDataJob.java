@@ -40,7 +40,7 @@
 //
 //    @Bean
 //    public Step step1() {
-//        return stepBuilderFactory.get("step1").<VehicleDetail, Vehicle>chunk(10).reader(reader())
+//        return stepBuilderFactory.get("step1").<VehicleDetail, Vehicle>chunk(10).reader(reader()).processor(new DataProcessor())
 //                .writer(writer()).build();
 //    }
 //

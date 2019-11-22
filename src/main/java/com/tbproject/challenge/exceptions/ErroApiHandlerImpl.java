@@ -10,12 +10,13 @@ import java.util.UUID;
 
 @Component
 public class ErroApiHandlerImpl implements ErrorApiHandler {
+
     @Override
     public ResponseEntity<Object> buildErrorValidationResponse(Object error) {
         Map<String, String> systemError = new HashMap();
-        ApiException apiException = (ApiException)error;
 
         try {
+            ApiException apiException = (ApiException)error;
             systemError.put("error", apiException.getResponseObj().toString());
 
             if (apiException.getResponseObj().toString() == null || apiException.getResponseObj().toString().isEmpty()) {
@@ -35,9 +36,9 @@ public class ErroApiHandlerImpl implements ErrorApiHandler {
     @Override
     public ResponseEntity<Object> buildGeneralErrorResponse(Object error) {
         Map<String, String> systemError = new HashMap();
-        Exception exceptionError = (Exception)error;
 
         try {
+            Exception exceptionError = (Exception) error;
             if (exceptionError.getMessage() != null) {
                 systemError.put("error", exceptionError.getMessage());
             } else if (exceptionError.getCause() != null) {

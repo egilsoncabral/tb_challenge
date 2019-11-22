@@ -50,7 +50,7 @@ public class VehicleController {
     @RequestMapping(value = "/operators",
             produces = { MediaType.APPLICATION_JSON_VALUE },
             method = RequestMethod.GET)
-    public ResponseEntity operators(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime, @ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime) throws ParseException {
+    public ResponseEntity operators(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime, @ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime){
         try{
             requestInputValidation.validateOperatorRequest(startTime, endTime);
             return new ResponseEntity(vehicleService.getOperators(startTime, endTime), HttpStatus.OK);
@@ -70,7 +70,7 @@ public class VehicleController {
     @RequestMapping(value = "/vehicles",
             produces = { MediaType.APPLICATION_JSON_VALUE },
             method = RequestMethod.GET)
-    public ResponseEntity vehicles(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime,@ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime,@ApiParam(value = "An operator (RD)" ,required=true) @RequestHeader(value="operator", required=true) String operator) throws ParseException {
+    public ResponseEntity vehicles(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime,@ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime,@ApiParam(value = "An operator (RD)" ,required=true) @RequestHeader(value="operator", required=true) String operator)  {
         try{
             requestInputValidation.validateVehicleRequest(startTime, endTime, operator);
             return new ResponseEntity<List<VehicleResponse>>(vehicleService.getVehicles(startTime, endTime, operator), HttpStatus.OK);
@@ -89,7 +89,7 @@ public class VehicleController {
     @RequestMapping(value = "/vehiclesAtStop",
             produces = { MediaType.APPLICATION_JSON_VALUE },
             method = RequestMethod.GET)
-    public ResponseEntity vehicleAtStop(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime,@ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime,@ApiParam(value = "A fleet (RD)" ,required=true) @RequestHeader(value="fleet", required=true) String fleet) throws ParseException {
+    public ResponseEntity vehicleAtStop(@ApiParam(value = "Start time (2012-12-31)." ,required=true) @RequestHeader(value="start-time", required=true) String startTime,@ApiParam(value = "End time (2013-01-31)." ,required=true) @RequestHeader(value="end-time", required=true) String endTime,@ApiParam(value = "A fleet (RD)" ,required=true) @RequestHeader(value="fleet", required=true) String fleet)  {
         try{
             requestInputValidation.validateVehicleRequest(startTime, endTime, fleet);
             return new ResponseEntity(vehicleService.getVehiclesStoped(startTime, endTime, fleet), HttpStatus.OK);

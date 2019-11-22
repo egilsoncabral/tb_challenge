@@ -9,7 +9,10 @@ import com.tbproject.challenge.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,45 +22,54 @@ public class VehicleServiceImpl implements VehicleService {
     @Autowired
     private VehicleRepository vehicleRepository;
 
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+
     @Override
-    public List<OperatorResponse> getOperators(String startTime, String endTime) {
-        List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetween(startTime, endTime);
-        return vehicles.stream().map((vehicle) -> {
+    public List<OperatorResponse> getOperators(String startTime, String endTime) throws ParseException {
+        List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetween(dateFormatter.parse(startTime), dateFormatter.parse(endTime));
+        List<OperatorResponse> responseList = vehicles.stream().map((vehicle) -> {
             OperatorResponse operatorResponse = new OperatorResponse();
             operatorResponse.setOperator(vehicle.getOperator());
             return operatorResponse;
         }).collect(Collectors.toList());
+        return new ArrayList<>(new HashSet<>(responseList));
     }
 
     @Override
-    public List<VehicleResponse> getVehicles(String startTime, String endTime, String operator) {
-        List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetweenAndOperator(startTime,endTime, operator);
-        return vehicles.stream().map((vehicle) -> {
+    public List<VehicleResponse> getVehicles(String startTime, String endTime, String operator) throws ParseException {
+        List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetweenAndOperator(dateFormatter.parse(startTime),
+                dateFormatter.parse(endTime), operator);
+        List<VehicleResponse> responseList =  vehicles.stream().map((vehicle) -> {
             VehicleResponse vehicleResponse = new VehicleResponse();
             vehicleResponse.setVehicleId(vehicle.getVehicleId());
             return vehicleResponse;
         }).collect(Collectors.toList());
+        return new ArrayList<>(new HashSet<>(responseList));
     }
 
     @Override
-    public List<VehicleStopResponse> getVehiclesStoped(String startTime, String endTime, String fleet) {
-        List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetweenAndOperator(startTime,endTime, fleet);
-        return vehicles.stream().map((vehicle) -> {
+    public List<VehicleStopResponse> getVehiclesStoped(String startTime, String endTime, String fleet) throws ParseException {
+        List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetweenAndOperator(dateFormatter.parse(startTime),
+                dateFormatter.parse(endTime), fleet);
+        List<VehicleStopResponse> responseList = vehicles.stream().map((vehicle) -> {
             VehicleStopResponse vehicleStopResponse = new VehicleStopResponse();
             vehicleStopResponse.setVehicleId(vehicle.getVehicleId());
             vehicleStopResponse.setAtStop(vehicle.isAtStop());
             return vehicleStopResponse;
         }).collect(Collectors.toList());
+        return new ArrayList<>(new HashSet<>(responseList));
     }
 
     @Override
-    public List<VehiclePositionResponse> getVehiclePosition(String startTime, String endTime, String vehicleId) {
-        List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetweenAndVehicleIdOrderByTimestamp(startTime,endTime, vehicleId);
-        return vehicles.stream().map((vehicle) -> {
+    public List<VehiclePositionResponse> getVehiclePosition(String startTime, String endTime, String vehicleId) throws ParseException {
+        List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetweenAndVehicleIdOrderByTimestamp(dateFormatter.parse(startTime),
+                dateFormatter.parse(endTime), vehicleId);
+        List<VehiclePositionResponse> responseList = vehicles.stream().map((vehicle) -> {
             VehiclePositionResponse vehiclePositionResponse = new VehiclePositionResponse();
             vehiclePositionResponse.setLatitude(vehicle.getLatitude());
             vehiclePositionResponse.setLongitude(vehicle.getLongitude());
             return vehiclePositionResponse;
         }).collect(Collectors.toList());
+        return new ArrayList<>(new HashSet<>(responseList));
     }
 }
