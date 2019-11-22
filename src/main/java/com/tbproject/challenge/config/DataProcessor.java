@@ -6,6 +6,10 @@ import org.springframework.batch.item.ItemProcessor;
 
 import java.text.SimpleDateFormat;
 
+
+/**
+ *
+ */
 public class DataProcessor implements ItemProcessor<VehicleDetail, Vehicle> {
     @Override
     public Vehicle process(VehicleDetail vehicleDetail) throws Exception {

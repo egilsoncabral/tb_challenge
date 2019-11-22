@@ -8,9 +8,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Handler responsable to treat error responses
+ */
 @Component
 public class ErroApiHandlerImpl implements ErrorApiHandler {
 
+    /**
+     * @param error
+     * @return
+     */
     @Override
     public ResponseEntity<Object> buildErrorValidationResponse(Object error) {
         Map<String, String> systemError = new HashMap();
@@ -33,6 +40,10 @@ public class ErroApiHandlerImpl implements ErrorApiHandler {
         return new ResponseEntity(systemError, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * @param error
+     * @return
+     */
     @Override
     public ResponseEntity<Object> buildGeneralErrorResponse(Object error) {
         Map<String, String> systemError = new HashMap();

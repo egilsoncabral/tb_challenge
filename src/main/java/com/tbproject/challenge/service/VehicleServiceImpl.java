@@ -24,6 +24,12 @@ public class VehicleServiceImpl implements VehicleService {
 
     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
+    /**
+     * @param startTime
+     * @param endTime
+     * @return
+     * @throws ParseException
+     */
     @Override
     public List<OperatorResponse> getOperators(String startTime, String endTime) throws ParseException {
         List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetween(dateFormatter.parse(startTime), dateFormatter.parse(endTime));
@@ -35,6 +41,13 @@ public class VehicleServiceImpl implements VehicleService {
         return new ArrayList<>(new HashSet<>(responseList));
     }
 
+    /**
+     * @param startTime
+     * @param endTime
+     * @param operator
+     * @return
+     * @throws ParseException
+     */
     @Override
     public List<VehicleResponse> getVehicles(String startTime, String endTime, String operator) throws ParseException {
         List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetweenAndOperator(dateFormatter.parse(startTime),
@@ -47,6 +60,13 @@ public class VehicleServiceImpl implements VehicleService {
         return new ArrayList<>(new HashSet<>(responseList));
     }
 
+    /**
+     * @param startTime
+     * @param endTime
+     * @param fleet
+     * @return
+     * @throws ParseException
+     */
     @Override
     public List<VehicleStopResponse> getVehiclesStoped(String startTime, String endTime, String fleet) throws ParseException {
         List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetweenAndOperator(dateFormatter.parse(startTime),
@@ -60,6 +80,13 @@ public class VehicleServiceImpl implements VehicleService {
         return new ArrayList<>(new HashSet<>(responseList));
     }
 
+    /**
+     * @param startTime
+     * @param endTime
+     * @param vehicleId
+     * @return
+     * @throws ParseException
+     */
     @Override
     public List<VehiclePositionResponse> getVehiclePosition(String startTime, String endTime, String vehicleId) throws ParseException {
         List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetweenAndVehicleIdOrderByTimestamp(dateFormatter.parse(startTime),

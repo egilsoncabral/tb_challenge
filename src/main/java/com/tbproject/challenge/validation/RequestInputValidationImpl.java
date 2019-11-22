@@ -16,6 +16,12 @@ public class RequestInputValidationImpl implements RequestInputValidation{
 
     private Map<String, ArrayList<String>> responseObj = new HashMap<String, ArrayList<String>>();
 
+    /**
+     * @param startTime
+     * @param endTime
+     * @return
+     * @throws ParseException
+     */
     private List<String> validateDate(String startTime, String endTime) throws ParseException {
 
         List<String> errorList = new ArrayList<>();
@@ -44,6 +50,11 @@ public class RequestInputValidationImpl implements RequestInputValidation{
         return errorList;
     }
 
+    /**
+     * Throw an exception if was found errors on errorsList
+     * @param errors
+     * @throws ApiException
+     */
     private void hasErrors(List<String> errors) throws ApiException {
         if (errors.size() > 0) {
             responseObj.put(ErrorCodes.ERROR_DATA_VALIDATION.getCode(), (ArrayList<String>) errors);
@@ -51,12 +62,25 @@ public class RequestInputValidationImpl implements RequestInputValidation{
         }
     }
 
+    /**
+     * @param startTime
+     * @param endTime
+     * @throws ParseException
+     * @throws ApiException
+     */
     @Override
     public void validateOperatorRequest(String startTime, String endTime) throws ParseException, ApiException {
         List<String> errors = validateDate(startTime, endTime);
         hasErrors(errors);
     }
 
+    /**
+     * @param startTime
+     * @param endTime
+     * @param operator
+     * @throws ParseException
+     * @throws ApiException
+     */
     @Override
     public void validateVehicleRequest(String startTime, String endTime, String operator) throws ParseException, ApiException {
         List<String> errors = validateDate(startTime, endTime);
@@ -66,6 +90,13 @@ public class RequestInputValidationImpl implements RequestInputValidation{
         hasErrors(errors);
     }
 
+    /**
+     * @param startTime
+     * @param endTime
+     * @param vehicleId
+     * @throws ParseException
+     * @throws ApiException
+     */
     @Override
     public void validatePositionRequest(String startTime, String endTime, String vehicleId) throws ParseException, ApiException {
         List<String> errors = validateDate(startTime, endTime);

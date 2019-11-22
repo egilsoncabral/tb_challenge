@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static springfox.documentation.builders.PathSelectors.regex;
 
+/**
+ * Swagger Configurator
+ */
 @EnableSwagger2
 @Configuration
 public class SwaggerConfig extends WebMvcConfigurationSupport {

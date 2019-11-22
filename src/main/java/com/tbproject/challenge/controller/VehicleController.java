@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Main rest controller 
+ */
 @RestController
 @Api(tags = {"Vehicle API"}, value = "Vehicle API")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-18T23:54:00.718Z")

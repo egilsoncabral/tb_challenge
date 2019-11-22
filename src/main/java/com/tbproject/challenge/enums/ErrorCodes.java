@@ -1,5 +1,9 @@
 package com.tbproject.challenge.enums;
 
+
+/**
+ * Enum with some business codes
+ */
 public enum ErrorCodes {
 
     ERROR_DATA_VALIDATION("600"),

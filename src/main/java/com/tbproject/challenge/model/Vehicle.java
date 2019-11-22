@@ -31,6 +31,9 @@ import java.util.Date;
 	At Stop [0=no,1=yes]
 	*/
 
+/**
+ * Main entity
+ */
 @Data
 @AllArgsConstructor
 @Document(collection = "vehicle")
