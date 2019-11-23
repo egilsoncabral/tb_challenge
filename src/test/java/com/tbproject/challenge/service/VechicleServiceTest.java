@@ -2,6 +2,7 @@ package com.tbproject.challenge.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tbproject.challenge.TbChallengeVehiclesApplication;
 import com.tbproject.challenge.dto.OperatorResponse;
 import com.tbproject.challenge.dto.VehiclePositionResponse;
 import com.tbproject.challenge.dto.VehicleResponse;
@@ -33,8 +34,8 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-public class TestVechicleService {
+@SpringBootTest(classes = TbChallengeVehiclesApplication.class)
+public class VechicleServiceTest {
 
     @InjectMocks
     private VehicleService vehicleService = new VehicleServiceImpl();

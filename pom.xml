@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apaache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd
+http://maven.apaache.org/POM/4.0.0 ">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -103,21 +104,6 @@
 			<artifactId>validation-api</artifactId>
 		</dependency>
 
-		<!-- Add support for Mongo Query DSL -->
-
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-mongodb</artifactId>
-			<version>4.1.3</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.mongodb</groupId>
-					<artifactId>mongo-java-driver</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-
 	</dependencies>
 
 	<build>
@@ -125,53 +111,19 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>1.4.13</version>
+				<version>2.2.1.RELEASE</version>
 				<executions>
 					<execution>
-						<id>build-image</id>
-						<phase>package</phase>
+						<id>pre-integration-test</id>
 						<goals>
-							<goal>build</goal>
+							<goal>start</goal>
 						</goals>
 					</execution>
-				</executions>
-				<configuration>
-					<repository>${docker.image.prefix}/${project.artifactId}</repository>
-					<buildArgs>
-						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-					</buildArgs>
-				</configuration>
-			</plugin>
-			<!-- Add plugin for Mongo Query DSL -->
-
-			<plugin>
-				<groupId>com.mysema.maven</groupId>
-				<artifactId>apt-maven-plugin</artifactId>
-				<version>1.1.3</version>
-				<dependencies>
-					<dependency>
-						<groupId>com.querydsl</groupId>
-						<artifactId>querydsl-apt</artifactId>
-						<version>4.1.3</version>
-					</dependency>
-				</dependencies>
-				<executions>
 					<execution>
-						<phase>generate-sources</phase>
+						<id>post-integration-test</id>
 						<goals>
-							<goal>process</goal>
+							<goal>stop</goal>
 						</goals>
-						<configuration>
-							<outputDirectory>target/generated-sources/java</outputDirectory>
-							<processor>
-								org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor
-							</processor>
-							<logOnlyOnError>true</logOnlyOnError>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

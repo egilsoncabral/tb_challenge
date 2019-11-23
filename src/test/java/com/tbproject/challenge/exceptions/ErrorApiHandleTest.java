@@ -1,5 +1,6 @@
 package com.tbproject.challenge.exceptions;
 
+import com.tbproject.challenge.TbChallengeVehiclesApplication;
 import com.tbproject.challenge.enums.ErrorCodes;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,8 +22,8 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-public class TestErrorApiHandle {
+@SpringBootTest(classes = TbChallengeVehiclesApplication.class)
+public class ErrorApiHandleTest {
 
     @Autowired
     private ErrorApiHandler errorApiHandler;

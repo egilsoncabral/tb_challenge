@@ -1,5 +1,6 @@
 package com.tbproject.challenge.validation;
 
+import com.tbproject.challenge.TbChallengeVehiclesApplication;
 import com.tbproject.challenge.exceptions.ApiException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,8 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.text.ParseException;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-public class TestRequestInputValidation {
+@SpringBootTest(classes = TbChallengeVehiclesApplication.class)
+public class RequestInputValidationTest {
 
     @Autowired
     private RequestInputValidation requestInputValidation;

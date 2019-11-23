@@ -1,6 +1,8 @@
 package com.tbproject.challenge.controller;
 
 import java.io.IOException;
+
+import com.tbproject.challenge.TbChallengeVehiclesApplication;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +18,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = TbChallengeVehiclesApplication.class)
 @WebAppConfiguration
 public abstract class AbstractTest {
     protected MockMvc mvc;

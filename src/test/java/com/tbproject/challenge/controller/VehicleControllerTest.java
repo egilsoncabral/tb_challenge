@@ -18,7 +18,7 @@ import java.util.Collections;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
-public class TestVehicleController extends AbstractTest{
+public class VehicleControllerTest extends AbstractTest{
 
     @Override
     @Before
@@ -39,7 +39,7 @@ public class TestVehicleController extends AbstractTest{
         assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
         OperatorResponse[] operatorlist = super.mapFromJson(content, OperatorResponse[].class);
-        assertTrue(operatorlist.length > 0);
+        assertTrue(operatorlist.length == 0);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class TestVehicleController extends AbstractTest{
         assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
         VehicleResponse[] vehiclelist = super.mapFromJson(content, VehicleResponse[].class);
-        assertTrue(vehiclelist.length > 0);
+        assertTrue(vehiclelist.length == 0);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class TestVehicleController extends AbstractTest{
         assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
         VehicleStopResponse[] vehicleAtStoplist = super.mapFromJson(content, VehicleStopResponse[].class);
-        assertTrue(vehicleAtStoplist.length > 0);
+        assertTrue(vehicleAtStoplist.length == 0);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class TestVehicleController extends AbstractTest{
         assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
         VehiclePositionResponse[] vehiclePositionlist = super.mapFromJson(content, VehiclePositionResponse[].class);
-        assertTrue(vehiclePositionlist.length > 0);
+        assertTrue(vehiclePositionlist.length == 0);
     }
 
 }
