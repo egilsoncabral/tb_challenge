@@ -40,15 +40,16 @@ These instructions will get you a copy of the project up and running on your loc
         
         - Enter in the project folder and execute:	
         
-            $ mvn clean install
+            $ mvn clean package
             
         - Go to /target folder, take the .jar file generated and put it in a folder of your own.
         
-        - Take the dataset file in (https://data.gov.ie/dataset/dublin-bus-gps-sample-data-from-dublin-city-council-insight-project),
-        and put it in the same folder that you put the jar file.
+        - Take the dataset file in (https://data.gov.ie/dataset/dublin-bus-gps-sample-data-from-dublin-city-council-insight-project), download one extract, and from that extract, use 1 example CSV as input. Put it in the same folder that you put the jar file.
         
         - Execute:
-            $ mvn clean springboot:run
+            $ mvn springboot:run -Dspring-boot.run.arguments=--input.file.name={$filename},--host.address={host}
+	
+	P.S: $filename example: bus.csv, for the host use "locahost" for docker CE or "192.168.99.100" for docker toolbox
         
         - Now access the url:
             > http://192.168.99.100:8080/swagger-ui.html (If you are using docker toolbox)
