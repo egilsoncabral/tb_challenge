@@ -29,8 +29,7 @@ import java.util.Date;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -61,28 +60,28 @@ public class VechicleServiceTest {
 
     @Test
     public void testGetOperators() throws ParseException {
-        when(vehicleRepository.findByTimeFrameBetween(anyObject(), anyObject())).thenReturn(vehicles);
+        when(vehicleRepository.findByTimeFrameBetween(any(Date.class), any(Date.class))).thenReturn(vehicles);
         List<OperatorResponse> operatorList = vehicleService.getOperators("2012-12-01", "2013-01-31");
         assertTrue(operatorList.size() > 0);
     }
 
     @Test
     public void testGetVehicles() throws ParseException {
-        when(vehicleRepository.findByTimeFrameBetweenAndOperator(anyObject(), anyObject(), anyString())).thenReturn(vehicles);
+        when(vehicleRepository.findByTimeFrameBetweenAndOperator(any(Date.class), any(Date.class), anyString())).thenReturn(vehicles);
         List<VehicleResponse> vehicleList = vehicleService.getVehicles("2012-12-01", "2013-01-31", "RD");
         assertTrue(vehicleList.size() > 0);
     }
 
     @Test
     public void testGetVehicleAtStop() throws ParseException {
-        when(vehicleRepository.findByTimeFrameBetweenAndOperator(anyObject(), anyObject(), anyString())).thenReturn(vehicles);
+        when(vehicleRepository.findByTimeFrameBetweenAndOperator(any(Date.class), any(Date.class), anyString())).thenReturn(vehicles);
         List<VehicleStopResponse> vehicleList = vehicleService.getVehiclesStoped("2012-12-01", "2013-01-31", "RD");
         assertTrue(vehicleList.size() > 0);
     }
 
     @Test
     public void testGetVehiclePosition() throws ParseException {
-        when(vehicleRepository.findByTimeFrameBetweenAndVehicleIdOrderByTimestamp(anyObject(), anyObject(), anyString())).thenReturn(vehicles);
+        when(vehicleRepository.findByTimeFrameBetweenAndVehicleIdOrderByTimestamp(any(Date.class), any(Date.class), anyString())).thenReturn(vehicles);
         List<VehiclePositionResponse> vehiclePositionList = vehicleService.getVehiclePosition("2012-12-01", "2013-01-31", "40040");
         assertTrue(vehiclePositionList.size() > 0);
     }
