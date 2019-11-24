@@ -34,7 +34,7 @@
       "blockId": "27017",
       "vehicleId": "33521",
       "stopId": "395",
-      "atStop": false
+      "atStop": true
 
     }
 ]
