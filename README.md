@@ -32,7 +32,7 @@ These instructions will get you a copy of the project up and running on your loc
 	    - For build the project, you will need to execute the instructions
         	
          	$ mvn clean package
-         	$ docker-compose up
+         	$ docker-compose --compatibility up
         	
         - Now, clone the data loader project, to load the datas on Mongo database:
         	
