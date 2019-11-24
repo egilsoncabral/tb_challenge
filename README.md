@@ -49,7 +49,7 @@ These instructions will get you a copy of the project up and running on your loc
         - Execute:
             $ mvn springboot:run -Dspring-boot.run.arguments=--input.file.name={$filename},--host.address={host}
 	
-	P.S: $filename example: bus.csv, for the host use "locahost" for docker CE or "192.168.99.100" for docker toolbox
+	    P.S: $filename example: bus.csv, for the host use "locahost" for docker CE or "192.168.99.100" for docker toolbox
         
         - Now access the url:
             > http://192.168.99.100:8080/swagger-ui.html (If you are using docker toolbox)
