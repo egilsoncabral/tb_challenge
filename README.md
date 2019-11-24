@@ -38,17 +38,7 @@ These instructions will get you a copy of the project up and running on your loc
         	
         	$ git clone https://github.com/egilsoncabral/loadermongo.git
         
-        - Enter in the project folder and execute:	
-        
-            $ mvn clean install
-            
-        - Go to /target folder, take the .jar file generated and put it in a folder of your own.
-        
-        - Take the dataset file in (https://data.gov.ie/dataset/dublin-bus-gps-sample-data-from-dublin-city-council-insight-project),
-        and put it in the same folder that you put the jar file.
-        
-        - Execute:
-            $ mvn clean springboot:run
+        - All instructions to load the data, you can find there.	
         
         - Now access the url:
             > http://192.168.99.100:8080/swagger-ui.html (If you are using docker toolbox)
