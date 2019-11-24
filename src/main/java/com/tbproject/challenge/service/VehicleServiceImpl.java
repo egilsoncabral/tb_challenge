@@ -71,7 +71,8 @@ public class VehicleServiceImpl implements VehicleService {
     public List<VehicleStopResponse> getVehiclesStoped(String startTime, String endTime, String fleet) throws ParseException {
         List<Vehicle> vehicles = vehicleRepository.findByTimeFrameBetweenAndOperator(dateFormatter.parse(startTime),
                 dateFormatter.parse(endTime), fleet);
-        List<VehicleStopResponse> responseList = vehicles.stream().map((vehicle) -> {
+        List<Vehicle> vehiclesAtStop = vehicles.stream().filter((vehicle) -> vehicle.isAtStop()).collect(Collectors.toList());
+        List<VehicleStopResponse> responseList = vehiclesAtStop.stream().map((vehicle) -> {
             VehicleStopResponse vehicleStopResponse = new VehicleStopResponse();
             vehicleStopResponse.setVehicleId(vehicle.getVehicleId());
             vehicleStopResponse.setAtStop(vehicle.isAtStop());
